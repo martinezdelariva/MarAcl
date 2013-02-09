@@ -1,4 +1,4 @@
-marImage
+marAcl
 ========
 
-MarImage ZF2 module
+MarAcl ZF2 module
