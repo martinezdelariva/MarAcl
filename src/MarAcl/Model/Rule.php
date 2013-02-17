@@ -23,12 +23,12 @@ class Rule
 	protected $_resource;
 
 	// Privilege
-	const PRIVILEGE_GET = 'get';
-	const PRIVILEGE_POST = 'post';
-	const PRIVILEGE_PUT = 'put';
-	const PRIVILEGE_HEAD = 'head';
-	const PRIVILEGE_TRACE = 'trace';
-	const PRIVILEGE_OPTIONS = 'options';
+	const PRIVILEGE_GET = 'GET';
+	const PRIVILEGE_POST = 'POST';
+	const PRIVILEGE_PUT = 'PUT';
+	const PRIVILEGE_HEAD = 'HEAD';
+	const PRIVILEGE_TRACE = 'TRACE';
+	const PRIVILEGE_OPTIONS = 'OPTIONS';
 
 	protected $_allowPrivileges = array(
 		self::PRIVILEGE_GET,

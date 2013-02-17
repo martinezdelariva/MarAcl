@@ -195,10 +195,13 @@ class RulesMapper
 			// Privilege
 			if (isset($row['privilege'])) {
 				if (is_array($row['privilege'])) {
-					$privileges = $row['privilege'];
+					foreach ($row['privilege'] as $item){
+						$privileges = mb_strtoupper($item, 'UTF-8');
+					}
 				} else {
-					$privileges = array($row['privilege']);
+					$privileges = array(mb_strtoupper($row['privilege'], 'UTF-8'));
 				}
+
 			// Default 'GET' privilege
 			} else {
 				$privileges = array(Rule::PRIVILEGE_GET);
