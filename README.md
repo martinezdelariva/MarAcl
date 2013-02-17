@@ -1,12 +1,8 @@
 # MarAcl
 
-A ZF2 module for "ACL" made easy.
+Version. 0.1.0. A ZF2 module for "ACL" made easy.
 
 ## Overview
-Configure
-
-In most ZF2 applications, you'll have at least differents roles that you need to manage which resources they can see.
-
 This module allow you to configure ACL depending on:
 
 - Roles
@@ -118,8 +114,7 @@ Create configuration in your application. You can copy sample file from `vendor/
 						'role'			=> 'guest',
 						'controller'	=> 'application\controller\index',
 						'actions'		=> array('index'),
-						'privilege'		=> 'read',
-						'active' 		=> 1,
+						'privilege'		=> 'GET',
 					),
 					// …
 				),
@@ -127,10 +122,13 @@ Create configuration in your application. You can copy sample file from `vendor/
 			),
 		),
 	),
-	);
+	);		
 ```
 
 ## TODO
 - Ability choose a redirect (302) instead of 403.
 - Ability install with Composer
 - Create View Helper and Controller Plugin.
+
+## License
+Licensed under MIT. Use it for whatever you want, in commercial apps or open source.
