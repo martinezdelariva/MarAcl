@@ -2,16 +2,6 @@
 // To use this files:
 // Copy it to path APPLICATION/config/autoload/maracl.global.php
 return array(
-	'view_manager' => array(
-		'template_map' => array(
-			'error/404'               => __DIR__ . '/../view/error/404.phtml',
-			'error/403'            	  => __DIR__ . '/../view/error/403.phtml',
-		),
-		'template_path_stack' => array(
-			__DIR__ . '/../view',
-		),
-	),
-
 	'MarAcl' => array(
 		// Holds the full qualified class name.
 		// Must implement AuthenticationService class.
@@ -54,7 +44,8 @@ return array(
 			// Single rule is defined by:
 			// 	'role'			string
 			// 	'controller'	string				Indicates fully controller name
-			// 	'actions'		string|array		Indicates name of actions belong in this controller
+			// 	'actions'		string|array		Optional. Indicates name of actions belong in this controller
+			// 										If it's not provided then applies to all actions
 			// 	'privilege'		string|array		Optional. HTTP method (GET, POST, HEAD, TRACE, OPTIONS, DELETE)
 			//										By default is 'GET'
 			// 	'active'		int					Optional. 1 enable. 2 disable.
@@ -65,27 +56,6 @@ return array(
 						'role'			=> 'guest',
 						'controller'	=> 'application\controller\index',
 						'actions'		=> array('index'),
-						'privilege'		=> 'read',
-						'active' 		=> 1,
-					),
-					array(
-						'role'			=> 'guest',
-						'controller'	=> 'album\controller\album',
-						'actions'		=> 'index',
-						'privilege'		=> 'read',
-						'active' 		=> 1,
-					),
-					array(
-						'role'			=> 'user',
-						'controller'	=> 'album\controller\album',
-						'actions'		=> 'add',
-						'privilege'		=> 'read',
-						'active' 		=> 1,
-					),
-					array(
-						'role'			=> 'guest',
-						'controller'	=> 'marimage\controller\image',
-						'actions'		=> 'index',
 						'privilege'		=> 'read',
 						'active' 		=> 1,
 					),
