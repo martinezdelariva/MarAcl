@@ -9,7 +9,7 @@ class Rule
 {
 	protected $_id;
 	protected $_permission;
-	protected $_privilege;
+	protected $_privileges;
 	protected $_active;
 
 	/**
@@ -23,13 +23,20 @@ class Rule
 	protected $_resource;
 
 	// Privilege
-	const PRIVILEGE_READ = 'read';
-	const PRIVILEGE_WRITE = 'readwrite';
+	const PRIVILEGE_GET = 'get';
+	const PRIVILEGE_POST = 'post';
+	const PRIVILEGE_PUT = 'put';
+	const PRIVILEGE_HEAD = 'head';
+	const PRIVILEGE_TRACE = 'trace';
+	const PRIVILEGE_OPTIONS = 'options';
 
 	protected $_allowPrivileges = array(
-		self::PRIVILEGE_READ,
-		self::PRIVILEGE_WRITE,
-		null,
+		self::PRIVILEGE_GET,
+		self::PRIVILEGE_POST,
+		self::PRIVILEGE_PUT,
+		self::PRIVILEGE_HEAD,
+		self::PRIVILEGE_TRACE,
+		self::PRIVILEGE_OPTIONS,
 	);
 
     /**
@@ -39,7 +46,7 @@ class Rule
     {
         $this->setId((isset($data['id'])) ? $data['id'] : null);
         $this->setPermission((isset($data['permission'])) ? $data['permission'] : null);
-        $this->setPrivilege((isset($data['privilege'])) ? $data['privilege'] : null);
+        $this->setPrivileges((isset($data['privilege'])) ? $data['privilege'] : null);
         $this->setActive((isset($data['active'])) ? $data['active'] : null);
 
 		if (isset($data['role'])) {
@@ -73,21 +80,6 @@ class Rule
 		return $this->getActive() ?  true : false;
 	}
 
-	/**
-	 * Return all privileges depend on current privilege:
-	 * 	'read' 		: 'read'
-	 *	'readwrite' : 'read' 'readwrite'
-	 * @return string|array
-	 */
-	public function getPrivilegesSet()
-	{
-		if ($this->getPrivilege() == self::PRIVILEGE_WRITE) {
-			return array(self::PRIVILEGE_WRITE, self::PRIVILEGE_READ);
-		}
-
-		return $this->getPrivilege();
-	}
-
 	/* \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ */
 	/* 				 			Getters and Setter 							 */
 	/* \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ */
@@ -112,20 +104,22 @@ class Rule
 		return $this->_permission;
 	}
 
-	public function setPrivilege($privilege)
+	public function setPrivileges(array $privileges)
 	{
-		if (!in_array($privilege, $this->_allowPrivileges)) {
-			throw new \Exception(
-				"'$privilege' is not in the allow list :" . var_export($this->_allowPrivileges, true)
-			);
+		foreach($privileges as $item) {
+			if (!in_array($item, $this->_allowPrivileges)) {
+				throw new \Exception(
+					"'$item' is not in the allow list :" . var_export($this->_allowPrivileges, true)
+				);
+			}
 		}
 
-		$this->_privilege = $privilege;
+		$this->_privileges = $privileges;
 	}
 
-	public function getPrivilege()
+	public function getPrivileges()
 	{
-		return $this->_privilege;
+		return $this->_privileges;
 	}
 
 	/**
@@ -141,9 +135,6 @@ class Rule
 	 */
 	public function getResource()
 	{
-		if ($this->_resource instanceof \Closure) {
-			$this->_resource = call_user_func($this->_resource);
-		}
 		return $this->_resource;
 	}
 
@@ -162,9 +153,6 @@ class Rule
 	 */
 	public function getRole()
 	{
-		if ($this->_role instanceof \Closure) {
-			$this->_role = call_user_func($this->_role);
-		}
 		return $this->_role;
 	}
 

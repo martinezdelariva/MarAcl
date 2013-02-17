@@ -33,13 +33,11 @@ class Acl extends ZendAcl
 	{
 		// Hold RulesDao
 		$this->_rulesDao = $rulesDao;
-
 		// add roles
 		foreach ($this->getRulesDao()->findRoles() as $role) {
 			/* @var MarAclRole $role */
 			$this->addRole($role, $role->getParents());
 		}
-
 		// add resources
 		foreach ($this->getRulesDao()->findResources() as $resource) {
 			/* @var MarAclResource $resource */
@@ -52,7 +50,7 @@ class Acl extends ZendAcl
 			$this->allow(
 				$rule->getRole()->getRoleId(),
 				$rule->getResource() ? $rule->getResource()->getResourceId() : null,
-				$rule->getPrivilegesSet()
+				$rule->getPrivileges()
 			);
 		}
 
@@ -62,7 +60,7 @@ class Acl extends ZendAcl
 			$this->deny(
 				$rule->getRole()->getRoleId(),
 				$rule->getResource() ? $rule->getResource()->getResourceId() : null,
-				$rule->getPrivilegesSet()
+				$rule->getPrivileges()
 			);
 		}
 	}

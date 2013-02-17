@@ -80,9 +80,7 @@ class AclListener implements  ListenerAggregateInterface
 		);
 
 		// Query ACL
-		$result = $marAcl->isAllowed($role, $resource, $e->getRequest()->isPost() ?
-			MarAclRule::PRIVILEGE_WRITE : MarAclRule::PRIVILEGE_READ
-		);
+		$result = $marAcl->isAllowed($role, $resource, $e->getRequest()->getMethod());
 
 		// 403 Unauthorized
 		if ($result === false) {

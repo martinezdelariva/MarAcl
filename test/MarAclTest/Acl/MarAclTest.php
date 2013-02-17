@@ -54,32 +54,32 @@ class MarAclTest extends PHPUnit_Framework_TestCase
 
 	public function testRulesPublic()
 	{
-		$this->assertTrue($this->_marAcl->isAllowed('guest', 'controller_public::action_public_1', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_public::action_public_1', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_public::action_public_1', 'read'));
+		$this->assertTrue($this->_marAcl->isAllowed('guest', 'controller_public::action_public_1', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_public::action_public_1', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_public::action_public_1', MarAclRule::PRIVILEGE_GET));
 	}
 
 	public function testRulesUser()
 	{
-		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_user::action_user_1', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_user::action_user_1', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_user::action_user_1', 'read'));
+		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_user::action_user_1', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_user::action_user_1', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_user::action_user_1', MarAclRule::PRIVILEGE_GET));
 
 	}
 
 	public function testRulesAdmin()
 	{
-		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_admin::action_admin', 'read'));
-		$this->assertFalse($this->_marAcl->isAllowed('user', 'controller_admin::action_admin', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_admin::action_admin', 'read'));
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_admin::action_admin', 'readwrite'));
+		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_admin::action_admin', MarAclRule::PRIVILEGE_GET));
+		$this->assertFalse($this->_marAcl->isAllowed('user', 'controller_admin::action_admin', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_admin::action_admin', MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_admin::action_admin', MarAclRule::PRIVILEGE_GET));
 	}
 
-	public function testPrivilegesReadWrite()
+	public function testPrivileges()
 	{
-		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_public::action_public_1', 'readwrite'));
-		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_public::action_public_1', 'readwrite'));
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_public::action_public_1', 'readwrite'));
+		$this->assertTrue($this->_marAcl->isAllowed('guest', 'controller_public::action_public_1',  MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('user', 'controller_public::action_public_1',  MarAclRule::PRIVILEGE_GET));
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_public::action_public_1',  MarAclRule::PRIVILEGE_GET));
 	}
 
 	public function testPrivilegeUndefined()
@@ -93,8 +93,8 @@ class MarAclTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($this->_marAcl->isAllowed('guest', 'controller_inactive::action_inactive'));
 		$this->assertFalse($this->_marAcl->isAllowed('user', 'controller_inactive::action_inactive'));
 
-		// Admin must always has access but always indicating the privilege
-		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_inactive::action_inactive', 'readwrite'));
+		// Admin must always
+		$this->assertTrue($this->_marAcl->isAllowed('admin', 'controller_inactive::action_inactive', MarAclRule::PRIVILEGE_GET));
 	}
 
 	public function test404StatusCode()

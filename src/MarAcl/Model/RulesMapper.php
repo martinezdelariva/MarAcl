@@ -120,12 +120,11 @@ class RulesMapper
 
 	/**
 	 * @param array $row
-	 * @param RulesMapper $dataMapper              Params needed when this method
-	 *                                             is used inside a closure
+	 *
 	 * @throws \Exception
 	 * @return Resource[]
 	 */
-	public function mapResourcesRowToObject(array $row, RulesMapper $dataMapper = null)
+	public function mapResourcesRowToObject(array $row)
 	{
 		// 'actions' key is
 		// - undefined
@@ -156,9 +155,8 @@ class RulesMapper
 			if (isset($row['parents'])) {
 				$parents = array();
 				foreach ($row['parents'] as $item) {
-					// php 5.3 hack.
-					$rowParent = $dataMapper ? $dataMapper->findRoleByName($item) :
-						$this->findResourceByController($item);
+					// Find parent resource
+					$rowParent = $this->findResourceByController($item);
 
 					$resourceParent = new MarResource();
 					$resourceParent->setId(isset($rowParent['id']) ? $rowParent['id'] : null);
@@ -189,12 +187,23 @@ class RulesMapper
 			// New rule
 			$rule = new MarRule();
 			$rule->setId(isset($row['id']) ? $row['id'] : null);
-			$rule->setPrivilege(isset($row['privilege']) ?
-				$row['privilege'] : Rule::PRIVILEGE_WRITE); // Default 'readwrite'
 			$rule->setPermission($row['permission']);
 			$rule->setResource($resource);
 			$rule->setRole($this->mapRoleRowToObject(array('name' => $row['role'])));
 			$rule->setActive(isset($row['active'])? $row['active'] : 1); // Default active
+
+			// Privilege
+			if (isset($row['privilege'])) {
+				if (is_array($row['privilege'])) {
+					$privileges = $row['privilege'];
+				} else {
+					$privileges = array($row['privilege']);
+				}
+			// Default 'GET' privilege
+			} else {
+				$privileges = array(Rule::PRIVILEGE_GET);
+			}
+			$rule->setPrivileges($privileges);
 
 			// Hold single rule
 			$rules[] = $rule;
@@ -202,14 +211,4 @@ class RulesMapper
 
 		return $rules;
 	}
-
-//	public function lazyLoadRoleClosure($roleName)
-//	{
-//		$dataMapper = $this; // php 5.3 hack
-//
-//		return function () use ($roleName, $dataMapper) {
-//			$row = $dataMapper->findRoleByName($roleName);
-//			return $dataMapper->mapRoleRowToObject($row, $dataMapper);
-//		};
-//	}
 }
