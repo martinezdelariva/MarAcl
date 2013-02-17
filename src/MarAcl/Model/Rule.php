@@ -26,6 +26,7 @@ class Rule
 	const PRIVILEGE_GET = 'GET';
 	const PRIVILEGE_POST = 'POST';
 	const PRIVILEGE_PUT = 'PUT';
+	const PRIVILEGE_DELETE = 'DELETE';
 	const PRIVILEGE_HEAD = 'HEAD';
 	const PRIVILEGE_TRACE = 'TRACE';
 	const PRIVILEGE_OPTIONS = 'OPTIONS';
@@ -34,14 +35,12 @@ class Rule
 		self::PRIVILEGE_GET,
 		self::PRIVILEGE_POST,
 		self::PRIVILEGE_PUT,
+		self::PRIVILEGE_DELETE,
 		self::PRIVILEGE_HEAD,
 		self::PRIVILEGE_TRACE,
 		self::PRIVILEGE_OPTIONS,
 	);
 
-    /**
-     * Used by ResultSet to pass each database row to the entity
-     */
     public function exchangeArray($data)
     {
         $this->setId((isset($data['id'])) ? $data['id'] : null);

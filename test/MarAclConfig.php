@@ -52,7 +52,7 @@ return array(
 						'role'			=> 'guest',
 						'controller'	=> 'controller_public',
 						'actions'		=> array('action_public_1', 'action_public_2'),
-						'privilege'		=> 'get',
+						'privilege'		=> array('get'),
 					),
 					array(
 						'role'			=> 'user',

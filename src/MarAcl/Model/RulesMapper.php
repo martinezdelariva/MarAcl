@@ -196,7 +196,7 @@ class RulesMapper
 			if (isset($row['privilege'])) {
 				if (is_array($row['privilege'])) {
 					foreach ($row['privilege'] as $item){
-						$privileges = mb_strtoupper($item, 'UTF-8');
+						$privileges[] = mb_strtoupper($item, 'UTF-8');
 					}
 				} else {
 					$privileges = array(mb_strtoupper($row['privilege'], 'UTF-8'));

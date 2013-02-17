@@ -21,15 +21,15 @@ class Role implements RoleInterface
 	 */
 	protected $_parents;
 
-//    /**
-//     * Used by ResultSet to pass each database row to the entity
-//     */
-//    public function exchangeArray($data)
-//    {
-//        $this->setId((isset($data['id'])) ? $data['id'] : null);
-//        $this->setName((isset($data['name'])) ? $data['name'] : null);
-//        $this->setParents((isset($data['parents'])) ? $data['parents'] : null);
-//    }
+    /**
+     * Used by ResultSet to pass each database row to the entity
+     */
+    public function exchangeArray($data)
+    {
+        $this->setId((isset($data['id'])) ? $data['id'] : null);
+        $this->setName((isset($data['name'])) ? $data['name'] : null);
+        $this->setParents((isset($data['parents'])) ? $data['parents'] : null);
+    }
 
 	public function setParents($parents)
 	{
